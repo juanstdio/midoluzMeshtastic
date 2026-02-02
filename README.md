@@ -6,8 +6,6 @@ Además, responde a algunos comandos simples enviados por texto, integrando dato
 
 Proyecto de hobby, orientado a monitoreo y curiosidad técnica.
 
-
-
 ## ¿Qué hace?
 
 * Se conecta a un nodo Meshtastic por TCP.
@@ -152,12 +150,11 @@ python3 midoluzbot.py
 
 Si la conexión al nodo es exitosa, el bot queda escuchando indefinidamente hasta que se corte con `Ctrl+C`.
 
-
+Se puede automatizar mediante un servicio de Systemd sin problemas.
 
 ## Notas finales
 
-* No es un bot “cerrado”: está pensado para leer, modificar y agregar comandos.
-* Funciona bien en hardware modesto (Raspberry, mini PC, server casero).
-* Ideal para aprender cómo fluye la info en una red Meshtastic y tener histórico de lo que pasa.
+* Agradezco enormemente a https://github.com/Meshtastic-Argentina por el código del Grumpybot, sirvió de inspiración para este proyectito!
+* Funciona bien en hardware modesto (Raspberry, mini PC).
+* Ideal para aprender cómo fluye la info en una red Meshtastic y tener histórico de lo que pasa, en una base de datos
 
-Nada más peligroso que una red mesh… salvo una red mesh con logging 😄
