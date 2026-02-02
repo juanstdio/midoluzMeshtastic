@@ -32,12 +32,12 @@ Los comandos se envían como mensajes de texto que empiezan con `/`:
   Responde `pong`. Útil para probar conectividad.
 
 * `/demanda`
-  Devuelve una línea compacta con la demanda eléctrica actual y el predespacho, consultando una API local.
+  Devuelve una línea compacta con la demanda eléctrica actual y el predespacho de CAMMESA.
 
 * `/cortes`
-  Devuelve cortes eléctricos agrupados por empresa (Edenor / Edesur u otras), con localidad, cantidad de usuarios afectados y hora estimada.
+  Devuelve cortes eléctricos agrupados por empresa (Edenor / Edesur u otras), con localidad, cantidad de usuarios afectados y hora estimada. Datos Oficiales del ENRE
 
-  Si hay muchos datos, la respuesta se envía en varios mensajes con pequeñas pausas.
+  Si hay muchos datos, la respuesta se envía en varios mensajes con pequeñas pausas de 5 segundos.
 
 
 
