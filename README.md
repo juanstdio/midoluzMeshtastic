@@ -1,2 +1,122 @@
-# midoluzMeshtastic
-bot de meshtastic que responde a pedidos de cortes de luz o demanda del SADI
+# MidoluzBot
+
+Bot de comandos y logging para redes **Meshtastic**, pensado para uso hogareño / experimental. Escucha todo el tráfico de la red mesh, muestra la información en consola de forma legible y guarda los eventos en una base de datos MySQL para análisis posterior.
+
+Además, responde a algunos comandos simples enviados por texto, integrando datos externos (cortes de energía y demanda eléctrica).
+
+Proyecto de hobby, orientado a monitoreo y curiosidad técnica.
+
+## ¿Qué hace?
+
+* Se conecta a un nodo Meshtastic por TCP.
+* Escucha **todos los paquetes** que circulan por la red.
+* Identifica y loguea distintos tipos de mensajes:
+
+  * Mensajes de texto
+  * Posición (GPS)
+  * Información de nodo
+  * Telemetría (batería, voltaje)
+  * Routing, range test, sensores y paquetes admin
+* Guarda cada evento en una base MySQL, serializando los datos en JSON.
+* Responde comandos enviados por texto desde otros nodos.
+
+Todo esto sin frenar el bot si hay errores de red, API o base de datos.
+
+---
+
+## Comandos disponibles
+
+Los comandos se envían como mensajes de texto que empiezan con `/`:
+
+* `/ping`
+  Responde `pong`. Útil para probar conectividad.
+
+* `/demanda`
+  Devuelve una línea compacta con la demanda eléctrica actual y el predespacho, consultando una API local.
+
+* `/cortes`
+  Devuelve cortes eléctricos agrupados por empresa (Edenor / Edesur), con localidad, cantidad de usuarios afectados y hora estimada.
+
+  Si hay muchos datos, la respuesta se envía en varios mensajes con pequeñas pausas.
+
+---
+
+## Logging
+
+El bot muestra en consola información en tiempo real usando colores (colorama):
+
+* Quién envía → quién recibe
+* Tipo de paquete
+* Datos relevantes según el caso
+
+La idea es poder “ver” la red mesh viva, sin necesidad de decodificar nada a mano.
+
+---
+
+## Base de datos
+
+Cada paquete recibido se guarda en MySQL en una tabla llamada `eventos`.
+
+Se registra:
+
+* Tipo de paquete (portnum)
+* ID del emisor
+* Nombre corto del emisor (si está disponible)
+* ID del receptor
+* Payload completo en formato JSON
+
+El código intenta limpiar y serializar cualquier objeto raro de Meshtastic para evitar errores al guardar.
+
+Si la base falla, el bot **no se cae**: solo loguea el error y sigue.
+
+---
+
+## Requisitos
+
+* Python 3
+* Un nodo Meshtastic accesible por TCP
+* MySQL / MariaDB
+
+Librerías principales:
+
+* `meshtastic`
+* `mysql-connector-python`
+* `pubsub`
+* `colorama`
+* `requests`
+
+---
+
+## Configuración
+
+Variables a revisar antes de usar:
+
+* `IP_NODO`
+  IP del nodo Meshtastic al que se conecta el bot.
+
+* `DB_CONFIG`
+  Datos de conexión a la base MySQL.
+
+* URLs de las APIs locales usadas por `/cortes` y `/demanda`.
+
+Todo está hardcodeado a propósito: es un bot simple, pensado para correr en una red local.
+
+---
+
+## Ejecución
+
+```bash
+python3 midoluzbot.py
+```
+
+Si la conexión al nodo es exitosa, el bot queda escuchando indefinidamente hasta que se corte con `Ctrl+C`.
+
+---
+
+## Notas finales
+
+* No es un bot “cerrado”: está pensado para leer, modificar y agregar comandos.
+* Funciona bien en hardware modesto (Raspberry, mini PC, server casero).
+* Ideal para aprender cómo fluye la info en una red Meshtastic y tener histórico de lo que pasa.
+
+Nada más peligroso que una red mesh… salvo una red mesh con logging 😄
