@@ -1,8 +1,11 @@
 # MidoluzBot
+Bot de comandos y logging para redes **Meshtastic**, pensado para uso hogareño / experimental. Escucha todo el tráfico de la red mesh, muestra la información en consola de forma legible y guarda los eventos en una base de datos MySQL para análisis posterior.Además, responde a algunos comandos simples enviados por texto, integrando datos externos (cortes de energía y demanda eléctrica).
 
-Bot de comandos y logging para redes **Meshtastic**, pensado para uso hogareño / experimental. Escucha todo el tráfico de la red mesh, muestra la información en consola de forma legible y guarda los eventos en una base de datos MySQL para análisis posterior.
-
-Además, responde a algunos comandos simples enviados por texto, integrando datos externos (cortes de energía y demanda eléctrica).
+![Python](https://img.shields.io/badge/Python-3.11-blue)
+![Status](https://img.shields.io/badge/Status-stable-green)
+![GitHub repo size](https://img.shields.io/github/repo-size/juanstdio/midoluzMeshtastic)
+![GitHub license](https://img.shields.io/github/license/juanstdio/midoluzMeshtastic) 
+![MySQL](https://shields.io/badge/MySQL-lightgrey?logo=mysql&style=plastic&logoColor=white&labelColor=blue)
 
 Proyecto de hobby, orientado a monitoreo y curiosidad técnica.
 
@@ -32,7 +35,7 @@ Los comandos se envían como mensajes de texto que empiezan con `/`:
   Responde `pong`. Útil para probar conectividad.
 
 * `/demanda`
-  Devuelve una línea compacta con la demanda eléctrica actual y el predespacho de CAMMESA.
+  Devuelve una línea compacta con la demanda eléctrica actual y el predespacho de [CAMMESA](https://cammesaweb.cammesa.com/).
 
 * `/cortes`
   Devuelve cortes eléctricos agrupados por empresa (Edenor / Edesur u otras), con localidad, cantidad de usuarios afectados y hora estimada. Datos Oficiales del ENRE
@@ -152,9 +155,9 @@ Si la conexión al nodo es exitosa, el bot queda escuchando indefinidamente hast
 
 Se puede automatizar mediante un servicio de Systemd sin problemas.
 
-## Notas finales
+## Notas finales / Gratitudes
 
-* Agradezco enormemente a https://github.com/Meshtastic-Argentina por el código del Grumpybot, sirvió de inspiración para este proyectito!
-* Funciona bien en hardware modesto (Raspberry, mini PC).
-* Ideal para aprender cómo fluye la info en una red Meshtastic y tener histórico de lo que pasa, en una base de datos
+- Funciona bien en hardware modesto (Raspberry, mini PC). Ideal para aprender cómo fluye la info en una red Meshtastic y tener histórico de lo que pasa, en una base de datos
+- Agradezco a **Meshtastic Argentina** - por el código del _Grumpybot_, sirvió de inspiración para este proyectito - [Meshtastic Argentina](https://github.com/Meshtastic-Argentina)
+- **Compañía Administradora del Mercado Mayorista Eléctrico S.A.** - _Por Proveer los datos abiertamente_ - [CAMMESA](https://cammesaweb.cammesa.com/)
 
