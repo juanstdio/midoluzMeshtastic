@@ -1,6 +1,8 @@
 # MidoluzBot
 Bot de comandos y logging para redes **Meshtastic**, pensado para uso hogareño / experimental. Escucha todo el tráfico de la red mesh, muestra la información en consola de forma legible y guarda los eventos en una base de datos MySQL para análisis posterior.Además, responde a algunos comandos simples enviados por texto, integrando datos externos (cortes de energía y demanda eléctrica).
 
+A partir de la versión midoluzbotv3.py, el bot también expone una API REST (FastAPI) para enviar mensajes a la red mesh desde HTTP.
+
 ![Python](https://img.shields.io/badge/Python-3.11-blue)
 ![Status](https://img.shields.io/badge/Status-stable-green)
 ![GitHub repo size](https://img.shields.io/github/repo-size/juanstdio/midoluzMeshtastic)
@@ -22,10 +24,74 @@ Proyecto de hobby, orientado a monitoreo y curiosidad técnica.
   * Routing, range test, sensores y paquetes admin
 * Guarda cada evento en una base MySQL, serializando los datos en JSON.
 * Responde comandos enviados por texto desde otros nodos.
+* Expone una API REST para enviar mensajes a la red mesh.
 
 Todo esto sin frenar el bot si hay errores de red, API o base de datos.
 
+## API REST (solo midoluzbotv3.py)
 
+El bot puede actuar como puente entre HTTP y la red mesh LoRa.
+
+Corre un servidor FastAPI en el puerto:
+```HTML
+http://IP_DEL_BOT:1215
+```
+Documentación automática disponible en:
+```HTML
+http://IP_DEL_BOT::1215/docs#
+```
+
+## Endpoints disponibles
+### POST /SendMessage
+
+Envía un mensaje a un canal Meshtastic.
+
+Parámetros JSON:
+```JSON
+{
+  "channel": 0,
+  "message": "Hola mesh 😎"
+}
+```
+Características:
+* Máximo 200 caracteres
+* Soporte completo UTF-8 (emojis incluidos)
+* Pensado para broadcast a canal
+
+Respuesta típica:
+```JSON
+{
+  "status": "ok",
+  "channel": 0,
+  "message": "Hola mesh 😎"
+}
+```
+
+### POST /SendDirectMessage
+
+Envía un mensaje directo a un nodo específico.
+
+Parámetros JSON:
+```JSON
+{
+  "destination_id": "!abcd1234",
+  "message": "Ping directo ⚡"
+}
+```
+Características:
+
+* Mensaje privado nodo-a-nodo
+* Hasta 200 caracteres
+* No usa broadcast de canal
+
+Respuesta típica:
+```JSON
+{
+  "status": "ok",
+  "destination": "!abcd1234",
+  "message": "Ping directo ⚡"
+}
+```
 
 ## Comandos disponibles
 
@@ -146,9 +212,13 @@ Notas:
 
 
 ## Ejecución
-
+Para versión clásica:
 ```bash
 python3 midoluzbot.py
+```
+Para versión con API Rest:
+```bash
+python3 midoluzbotv3.py
 ```
 
 Si la conexión al nodo es exitosa, el bot queda escuchando indefinidamente hasta que se corte con `Ctrl+C`.
