@@ -215,7 +215,7 @@ def obtener_cortes_por_empresa():
     try:
         import requests
         from collections import defaultdict
-        r = requests.get("http://192.168.0.27:8000/cortes_detalle_agrupados", timeout=3)
+        r = requests.get("http://xxx.xxx.xxx.xxx:8000/cortes_detalle_agrupados", timeout=3)
         data = r.json().get("resultados", [])
         if not data: return ["Sin cortes reportados"]
 
@@ -242,7 +242,7 @@ def obtener_cortes_por_empresa():
 def obtener_demanda_compacta():
     try:
         import requests
-        r = requests.get("http://192.168.0.8:5005/api/last_sadi", timeout=3)
+        r = requests.get("http://xxx.xxx.xxx.xxx/api/last_sadi", timeout=3)
         d = r.json()
         return f"Demanda {d.get('time_muestra','??')} | Hoy:{d.get('DemHoy','?')}MW | Est:{d.get('Predespacho','?')}MW"
     except Exception:
@@ -472,3 +472,4 @@ if __name__ == "__main__":
         threading.Thread(target=start_rest_api, daemon=True).start()
 
         bot.start()
+
