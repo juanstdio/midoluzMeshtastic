@@ -41,7 +41,51 @@ Documentación automática disponible en:
 http://IP_DEL_BOT::1215/docs#
 ```
 
+## API REST (midoluzbotv4.py)
+
+A partir de la versión `midoluzbotv4.py`, el bot incorpora endpoints de **telemetría ambiental**, permitiendo inyectar métricas de sensores externos directamente a la red mesh como paquetes nativos `EnvironmentMetrics`.
+
+Cualquier cliente Meshtastic (Android, iOS, Web) los interpreta igual que si vinieran de un sensor físico conectado al nodo.
+
+Para ejecutar esta versión:
+```bash
+python3 midoluzbotv4.py
+```
+
+---
+
 ## Endpoints disponibles
+### POST /SendWeatherTelemetry
+
+Recibe datos meteorológicos vía POST y los publica en la mesh como telemetría de sensor ambiental.
+
+Parámetros JSON:
+```json
+{
+  "temperature": 24.07,
+  "relative_humidity": 60.79,
+  "barometric_pressure": 1012.28
+}
+```
+
+Características:
+- Los datos se envían como paquete protobuf `TELEMETRY_APP` nativo
+- Sin lógica de polling interno: el cliente decide cuándo enviar (cron, webhook, Home Assistant, script, etc.)
+- Ideal para integrar estaciones meteorológicas locales con la red mesh
+
+Ejemplo de uso con `curl`:
+```bash
+curl -X POST http://IP_DEL_BOT:1215/SendWeatherTelemetry \
+  -H "Content-Type: application/json" \
+  -d '{"temperature": 24.07, "relative_humidity": 60.79, "barometric_pressure": 1012.28}'
+```
+
+> **Nota:** los campos del JSON deben ser `temperature`, `relative_humidity` y `barometric_pressure`. Si tu estación usa nombres distintos, adaptá el cliente que hace el POST o un script intermedio.
+
+### Dependencia adicional
+
+Esta versión utiliza los módulos protobuf incluidos en el paquete `meshtastic`. No requiere instalación extra, pero asegurate de tener una versión reciente:
+
 ### POST /SendMessage
 
 Envía un mensaje a un canal Meshtastic.
