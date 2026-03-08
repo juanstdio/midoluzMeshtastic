@@ -51,7 +51,7 @@ except ImportError as e:
 # ------------------------
 
 DB_CONFIG = {
-    "host": "192.168.0.121",
+    "host": "xxx.xxx.xxx.xxx",
     "user": "meshlogger",
     "password": "profesor",
     "database": "meshtastic",
@@ -544,9 +544,10 @@ if __name__ == "__main__":
     bot = MeshtasticCommandBot()
     mesh_bot_instance = bot
 
-    if bot.connect("192.168.0.156"):
+    if bot.connect("IP_NODO"):
 
         # API REST paralela mediante threading
         threading.Thread(target=start_rest_api, daemon=True).start()
 
         bot.start()
+
